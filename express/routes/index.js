@@ -118,6 +118,14 @@ router.get('/likepost/id_post/:id_post/id_user/:id_user', function(req, res, nex
         });
     });
 });
+router.post('/comment/id_post/:id_post/', function(req, res, next) {
+    Post.findById(req.params.id_post, function(err, post){
+        post.comment.push({id_user: req.body.id_user,comment_user: req.body.comment_user});
+        post.save(function(err){
+            res.json({likes: post.likes});
+        });
+    });
+});
 router.get('/id_user=:id_user', function(req, res, next) {
     var id= req.params.id_user;
     Post.find({id_user: id},function (err, posts) {
